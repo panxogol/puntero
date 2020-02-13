@@ -13,24 +13,31 @@ function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
 //añadiremos una varieble que contiene constantes para asignar lo numeros 
 //representativos de las teclas del teclado a una palabra, constante (ESCRITAS EN MAYÚSCULAS, buenas practicas)
 //esta es la notación de json: javascript object notation
-var teclas = {
+/* var teclas = {
     UP: 38,
     DOWN: 40,
     LEFT: 37,
     RIGHT: 39
-}; //se pone punto y coma porque js lo interpreta como una sola linea de código
-
-document.addEventListener("keyup", dibujarTeclado);
+}; */ //se pone punto y coma porque js lo interpreta como una sola linea de código
 
 var cuadro = document.getElementById("area-de-dibujo");
 var pintura = cuadro.getContext("2d");
-var x = 150;
+
+cuadro.addEventListener("mousedown", dibujarPuntero);
+
+/* var x = 150;
 var y = 150;
-var movimiento = 10;
+var movimiento = 10; */
+var colorcito = "black";
 
-dibujarLinea("black", 149, 149, 151, 151, pintura);
+//dibujarLinea("black", 149, 149, 151, 151, pintura);
 
-function dibujarTeclado(evento) {
+function dibujarPuntero(evento){
+    console.log(evento);
+    dibujarLinea(colorcito, event.layerX, event.layerY, event.layerX, event.layerY, pintura);
+}
+
+/* function dibujarTeclado(evento) {
     if (x >= 0 && x <= 300 && y >= 0 && y <= 300) {
         switch (evento.keyCode) { //keyCode es la variable que contiene el código numérico de la tecla segun el navegador
             case teclas.UP:
@@ -70,4 +77,4 @@ function dibujarTeclado(evento) {
                 break; //no es estrictamente necesario este break
         }
     }
-}
+} */
