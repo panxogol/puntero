@@ -43,6 +43,6 @@ var yi = 150;
 var xf = 150;
 var yf = 150;
 
-cuadro.addEventListener("mousedown", clickAbajo);
-cuadro.addEventListener("mousemove", moverLinea);
-cuadro.addEventListener("mouseup", clickArriba);
+cuadro.addEventListener("pointerdown", clickAbajo);
+cuadro.addEventListener("pointermove", moverLinea);
+cuadro.addEventListener("pointerup", clickArriba);
