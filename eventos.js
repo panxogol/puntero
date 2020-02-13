@@ -23,19 +23,46 @@ function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
 var cuadro = document.getElementById("area-de-dibujo");
 var pintura = cuadro.getContext("2d");
 
-cuadro.addEventListener("mousedown", dibujarPuntero);
+cuadro.addEventListener("mousedown", clickAbajo);
+cuadro.addEventListener("mousemove", moverLinea);
+cuadro.addEventListener("mouseup", clickArriba);
+
 
 /* var x = 150;
 var y = 150;
 var movimiento = 10; */
 var colorcito = "black";
+var seMantiene = false; // esta variable estará en true mientras se mantenga presionado el click
+var xi = 150;
+var yi = 150;
+var xf = 150;
+var yf = 150;
 
 //dibujarLinea("black", 149, 149, 151, 151, pintura);
 
-function dibujarPuntero(evento){
+function clickAbajo(evento){
     console.log(evento);
-    dibujarLinea(colorcito, event.layerX, event.layerY, event.layerX, event.layerY, pintura);
+    seMantiene = true;
+    xi = evento.layerX;
+    yi = evento.layerY;
+    console.log(xi);
+    console.log(yi);
 }
+function moverLinea(evento){
+    xf = evento.layerX;
+    yf = evento.layerY;
+    if(seMantiene == true){
+        dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
+        xi = evento.layerX;
+        yi = evento.layerY;
+    }
+}
+
+function clickArriba(evento){
+    console.log(evento);
+    seMantiene = false;
+}
+
 
 /* function dibujarTeclado(evento) {
     if (x >= 0 && x <= 300 && y >= 0 && y <= 300) {
