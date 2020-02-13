@@ -10,27 +10,32 @@ function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
     //Si se desea crear un nuevo trazo, se debe realizar nuevamente un beginPath, en caso de que no se haga un cierre, se puede seguir dibujando pero a partir del punt en que se quedo la linea anterior.
 }
 
-//añadiremos una varieble que contiene constantes para asignar lo numeros 
-//representativos de las teclas del teclado a una palabra, constante (ESCRITAS EN MAYÚSCULAS, buenas practicas)
-//esta es la notación de json: javascript object notation
-/* var teclas = {
-    UP: 38,
-    DOWN: 40,
-    LEFT: 37,
-    RIGHT: 39
-}; */ //se pone punto y coma porque js lo interpreta como una sola linea de código
+function clickAbajo(evento) {
+    //console.log(evento);
+    seMantiene = true;
+    xi = evento.layerX;
+    yi = evento.layerY;
+    //console.log(xi);
+    //console.log(yi);
+}
+function moverLinea(evento) {
+    xf = evento.layerX;
+    yf = evento.layerY;
+    if (seMantiene == true) {
+        dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
+        xi = evento.layerX;
+        yi = evento.layerY;
+    }
+}
+
+function clickArriba(evento) {
+    //console.log(evento);
+    seMantiene = false;
+}
 
 var cuadro = document.getElementById("area-de-dibujo");
 var pintura = cuadro.getContext("2d");
 
-cuadro.addEventListener("mousedown", clickAbajo);
-cuadro.addEventListener("mousemove", moverLinea);
-cuadro.addEventListener("mouseup", clickArriba);
-
-
-/* var x = 150;
-var y = 150;
-var movimiento = 10; */
 var colorcito = "black";
 var seMantiene = false; // esta variable estará en true mientras se mantenga presionado el click
 var xi = 150;
@@ -38,70 +43,6 @@ var yi = 150;
 var xf = 150;
 var yf = 150;
 
-//dibujarLinea("black", 149, 149, 151, 151, pintura);
-
-function clickAbajo(evento){
-    console.log(evento);
-    seMantiene = true;
-    xi = evento.layerX;
-    yi = evento.layerY;
-    console.log(xi);
-    console.log(yi);
-}
-function moverLinea(evento){
-    xf = evento.layerX;
-    yf = evento.layerY;
-    if(seMantiene == true){
-        dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
-        xi = evento.layerX;
-        yi = evento.layerY;
-    }
-}
-
-function clickArriba(evento){
-    console.log(evento);
-    seMantiene = false;
-}
-
-
-/* function dibujarTeclado(evento) {
-    if (x >= 0 && x <= 300 && y >= 0 && y <= 300) {
-        switch (evento.keyCode) { //keyCode es la variable que contiene el código numérico de la tecla segun el navegador
-            case teclas.UP:
-                if (y > 0) {
-                    dibujarLinea("blue", x, y, x, y - movimiento, pintura);
-                    y = y - movimiento;
-                    break;
-                } else {
-                    break;
-                }
-            case teclas.DOWN:
-                if (y < 300) {
-                    dibujarLinea("red", x, y, x, y + movimiento, pintura);
-                    y = y + movimiento;
-                    break;
-                } else {
-                    break;
-                }
-            case teclas.LEFT:
-                if (x > 0) {
-                    dibujarLinea("green", x, y, x - movimiento, y, pintura);
-                    x = x - movimiento;
-                    break;
-                } else {
-                    break;
-                }
-            case teclas.RIGHT:
-                if (x < 300) {
-                    dibujarLinea("yellow", x, y, x + movimiento, y, pintura);
-                    x = x + movimiento;
-                    break;
-                } else {
-                    break;
-                }
-            default:
-                console.log("otra tecla");
-                break; //no es estrictamente necesario este break
-        }
-    }
-} */
+cuadro.addEventListener("mousedown", clickAbajo);
+cuadro.addEventListener("mousemove", moverLinea);
+cuadro.addEventListener("mouseup", clickArriba);
