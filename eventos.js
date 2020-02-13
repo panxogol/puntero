@@ -46,3 +46,7 @@ var yf = 150;
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
+
+cuadro.addEventListener("touchstart", clickAbajo);
+cuadro.addEventListener("touchmove", moverLinea);
+cuadro.addEventListener("touchend", clickArriba);
