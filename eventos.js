@@ -1,3 +1,7 @@
+function desabilitarScroll() {
+    window.scrollTo(0, 0);
+}
+
 function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
     //Aqui empieza el dibujo
     lienzo.beginPath(); //funcion para poner el lapiz
@@ -19,6 +23,7 @@ function clickAbajo(evento) {
     //console.log(yi);
 }
 function moverLinea(evento) {
+    desabilitarScroll();
     xf = evento.layerX;
     yf = evento.layerY;
     if (seMantiene == true) {
