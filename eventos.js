@@ -1,10 +1,12 @@
-function disableScroll(){  
+function disableScroll() {
     var x = window.scrollX;
     var y = window.scrollY;
-    window.onscroll = function(){ window.scrollTo(x, y) };
+    window.onscroll = function () {
+        window.scrollTo(x, y)
+    };
 }
 
-function enableScroll(){  
+function enableScroll() {
     window.onscroll = null;
 }
 
@@ -25,14 +27,14 @@ function clickAbajo(evento) {
     seMantiene = true;
     xi = evento.layerX;
     yi = evento.layerY;
-    //console.log(xi);
+    console.log(xi);
     //console.log(yi);
 }
 function moverLinea(evento) {
     xf = evento.layerX;
     yf = evento.layerY;
+    console.log(evento);
     if (seMantiene == true) {
-        //desabilitarScroll();
         dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
         xi = evento.layerX;
         yi = evento.layerY;
@@ -57,8 +59,8 @@ var xf = 150;
 var yf = 150;
 
 //habilitar y deshabilitar scroll bar con los botones
-btnBloqScroll.addEventListener("touchstart", disableScroll);
-btnDesbScroll.addEventListener("touchstart", enableScroll);
+btnBloqScroll.addEventListener("click", disableScroll);
+btnDesbScroll.addEventListener("click", enableScroll);
 
 //cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);

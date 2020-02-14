@@ -1,0 +1,115 @@
+url: https://developer.mozilla.org/samples/domref/touchevents.html
+
+//Configurando los eventos de manipulación
+//Cuando la página carga, la función startup() mostrada a continuación es llamada por nuestro atributo onload del elemento <body>.
+function startup() {
+  var el = document.getElementsByTagName("canvas")[0];
+  el.addEventListener("touchstart", handleStart, false);
+  el.addEventListener("touchend", handleEnd, false);
+  el.addEventListener("touchcancel", handleCancel, false);
+  el.addEventListener("touchleave", handleLeave, false);
+  el.addEventListener("touchmove", handleMove, false);
+}
+//Esto simplemente configura todos los detectores de eventos para nuestro elemento <canvas>, por lo que podremos manejar todos los eventos de toque cuando se produzcan.
+
+//Seguimiento de nuevos toques
+//Cuando un evento touchstart ocurre, indicando que un nuevo toque sobre la superficie se ha producido, la función handleStart() de a continuación es llamada.
+function handleStart(evt) {
+  evt.preventDefault();
+  var el = document.getElementsByTagName("canvas")[0];
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+        
+  for (var i=0; i<touches.length; i++) {
+    ongoingTouches.push(touches[i]);
+    var color = colorForTouch(touches[i]);
+    ctx.fillStyle = color;
+    ctx.fillRect(touches[i].pageX-2, touches[i].pageY-2, 4, 4);
+  }
+}
+//Esto llama a event.preventDefault() para mantener al navegador procesando el evento de toque (esto también previene que un evento del ratón o mouse sea entregado). Entonces obtenemos el contexto y lanzamos la lista de puntos de contacto cambiados de la propiedad TouchEvent.changedTouches del evento.
+//Después de ello, iteramos sobre todos los objetos Touch de la lista, insertándolo en una matriz de puntos de toque activos y dibujando el punto de inicio como un pequeño rectángulo; estamos usando una línea de 4 pixeles de ancho, por tanto estamos dibujando un cuadrado de 4 por 4 píxeles como punto de consistencia.
+
+//Dibujando mientras los eventos de toque se mueven
+//Cada vez que uno o más dedos se mueven, un evento touchmove es entregado, resultando en una llamada a nuestra función handleMove(). Su responsabilidad en este ejemplo es actualizar la información de toque cacheada y dibujar una línea desde la posición previa a la posición actual en cada toque.
+function handleMove(evt) {
+  evt.preventDefault();
+  var el = document.getElementsByTagName("canvas")[0];
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+  
+  ctx.lineWidth = 4;
+        
+  for (var i=0; i<touches.length; i++) {
+    var color = colorForTouch(touches[i]);
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
+    ctx.lineTo(touches[i].pageX, touches[i].pageY);
+    ctx.closePath();
+    ctx.stroke();
+    ongoingTouches.splice(idx, 1, touches[i]);  // swap in the new touch record
+  }
+}
+//Esto se repite también en los toques cambiados, pero mira en nuestra matriz de información de toques cacheados la información previa de cada toque con el fin de determinar los puntos de inicio para cada nuevo segmento de línea de toques que será dibujada. Esto se hace mirando cada propiedad de los toques de Touch.identifier . Esta propiedad es un único entero para cada toque, y sigue siendo consistente para cada evento durante la duración del contacto de cada dedo con la superficie.
+//Esto nos permite conseguir las coordenadas de la posición previa de cada toque y usar el método apropiado de contexto para dibujar un segmento de línea uniendo dos posiciones a la vez.
+//Después de dibujar la línea, llamamos a  Array.splice() para reemplazar la información previa sobre el punto de toque con la información actual de la matriz ongoingTouches.
+
+//Manejando el final de un toque
+//Cuando el usuario levanta un dedo de la superficie, un evento touchend es enviado.  De igual manera, si el dedo se desliza fuera de nuestro lienzo, obtenemos un evento touchleave. Manejamos ambos casos de la misma manera: llamando a la función handleEnd() de abajo. Su trabajo es dibujar el último segmento de línea para cada toque que ha finalizado y remueve el punto de toque de la lista de toques en marcha.
+function handleEnd(evt) {
+  evt.preventDefault();
+  var el = document.getElementsByTagName("canvas")[0];
+  var ctx = el.getContext("2d");
+  var touches = evt.changedTouches;
+  
+  ctx.lineWidth = 4;
+        
+  for (var i=0; i<touches.length; i++) {
+    var color = colorForTouch(touches[i]);
+    var idx = ongoingTouchIndexById(touches[i].identifier);
+    
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY);
+    ctx.lineTo(touches[i].pageX, touches[i].pageY);
+    ongoingTouches.splice(i, 1);  // remove it; we're done
+  }
+}
+//Esto es muy similar a la función previa; la única diferencia real es que cuando llamamos a  Array.splice(), simplemente remueve la antigua entrada de la lista de toques en marcha, sin añadir la información actualizada. El resultado es que detenemos el seguimiento del punto de toque.
+
+//Manejando los toques cancelados
+//Si el dedo del usuario se equivoca en la Interfaz del navegador, o el toque necesita ser cancelado, el evento touchcancel es enviado, y llamamos a la función handleCancel() abajo.
+function handleCancel(evt) {
+  evt.preventDefault();
+  var touches = evt.changedTouches;
+  
+  for (var i=0; i<touches.length; i++) {
+    ongoingTouches.splice(i, 1);  // remove it; we're done
+  }
+}
+//Dado que la idea es cancelar el toque inmediatamente, simplemente lo removemos de la lista de toques en marcha sin dibujar un segmento de línea final.
+
+//Seleccionando un color para cada toque
+//Con el fin de hacer que cada dibujo de toque se vea diferente, la función  colorForTouch() es usada para elegir un color basado en el identificador único de toque. Este identificador estará siempre entre 0 y un valor menos que el número de toques activos. Puesto que es muy improbable que alguna persona con más de 16 dedos use este demo, convertimos estos directamente en colores de escalas grises.
+function colorForTouch(touch) {
+  var id = touch.identifier;
+  id = id.toString(16); // make it a hex digit
+  return "#" + id + id + id;
+}
+//El resultado de esta función es un string o cadena que puede ser usada cuando se llame a funciones <canvas> para configurar los colores de dibujos. Por ejemplo, para un valor Touch.identifier  de 10, el resultado string o cadena es "#aaa".
+
+//Encontrando un toque continuo
+//La función ongoingTouchIndexById() abajo explora mediante la matriz ongoingTouches para encontrar el toque que coincida con el identificador dado, luego devuelve los índices de toques a la matriz.
+function ongoingTouchIndexById(idToFind) {
+  for (var i=0; i<ongoingTouches.length; i++) {
+    var id = ongoingTouches[i].identifier;
+    
+    if (id == idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}
