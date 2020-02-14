@@ -57,8 +57,8 @@ var xf = 150;
 var yf = 150;
 
 //habilitar y deshabilitar scroll bar con los botones
-btnBloqScroll.addEventListener("click", disableScroll);
-btnDesbScroll.addEventListener("click", enableScroll);
+btnBloqScroll.addEventListener("touchstart", disableScroll);
+btnDesbScroll.addEventListener("touchstart", enableScroll);
 
 cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);
