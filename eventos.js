@@ -67,6 +67,12 @@ cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
 cuadro.addEventListener("mouseleave", enableScroll);
 
+cuadro.addEventListener("pointerover", disableScroll);
+cuadro.addEventListener("pointerdown", clickAbajo);
+cuadro.addEventListener("pointermove", moverLinea);
+cuadro.addEventListener("pointerup", clickArriba);
+cuadro.addEventListener("pointerleave", enableScroll);
+
 cuadro.addEventListener("touchstart", disableScroll);
 cuadro.addEventListener("touchstart", clickAbajo);
 cuadro.addEventListener("touchmove", moverLinea);
