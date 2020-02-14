@@ -10,6 +10,10 @@ function disableScroll(){
     window.onscroll = function(){ window.scrollTo(x, y) };
 }
 
+function enableScroll(){  
+    window.onscroll = null;
+}
+
 function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
     //Aqui empieza el dibujo
     lienzo.beginPath(); //funcion para poner el lapiz
@@ -61,7 +65,9 @@ var scrollLock = false;
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
+cuadro.addEventListener("mouseleave", enableScroll);
 
 cuadro.addEventListener("touchstart", clickAbajo);
 cuadro.addEventListener("touchmove", moverLinea);
 cuadro.addEventListener("touchend", clickArriba);
+cuadro.addEventListener("touchcancel", enableScroll);
