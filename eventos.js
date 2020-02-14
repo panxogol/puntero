@@ -1,9 +1,3 @@
-function desabilitarScroll() {
-    var x = window.scrollX;
-    var y = window.scrollY;
-    window.scrollTo(x, y);
-}
-
 function disableScroll(){  
     var x = window.scrollX;
     var y = window.scrollY;
@@ -59,13 +53,12 @@ var xi = 150;
 var yi = 150;
 var xf = 150;
 var yf = 150;
-var scrollLock = false;
 
-cuadro.addEventListener("mouseover", disableScroll);
+cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
-cuadro.addEventListener("mouseleave", enableScroll);
+cuadro.addEventListener("mouseleave", enableScroll); //habilita el scroll una ves el mouse sale del canvas
 
 cuadro.addEventListener("pointerover", disableScroll);
 cuadro.addEventListener("pointerdown", clickAbajo);
@@ -73,8 +66,8 @@ cuadro.addEventListener("pointermove", moverLinea);
 cuadro.addEventListener("pointerup", clickArriba);
 cuadro.addEventListener("pointerleave", enableScroll);
 
-cuadro.addEventListener("touchstart", disableScroll);
+//cuadro.addEventListener("touchstart", disableScroll);
 cuadro.addEventListener("touchstart", clickAbajo);
 cuadro.addEventListener("touchmove", moverLinea);
 cuadro.addEventListener("touchend", clickArriba);
-cuadro.addEventListener("touchend", enableScroll);
+//cuadro.addEventListener("touchend", enableScroll);
