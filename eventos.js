@@ -46,6 +46,8 @@ function clickArriba(evento) {
 
 var cuadro = document.getElementById("area-de-dibujo");
 var pintura = cuadro.getContext("2d");
+var btnBloqScroll = document.getElementById("btn-bloq-scroll");
+var btnDesbScroll = document.getElementById("btn-desb-scroll");
 
 var colorcito = "black";
 var seMantiene = false; // esta variable estará en true mientras se mantenga presionado el click
@@ -54,17 +56,15 @@ var yi = 150;
 var xf = 150;
 var yf = 150;
 
+//habilitar y deshabilitar scroll bar con los botones
+btnBloqScroll.addEventListener("click", disableScroll);
+btnDesbScroll.addEventListener("click", enableScroll);
+
 cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
 cuadro.addEventListener("mouseleave", enableScroll); //habilita el scroll una ves el mouse sale del canvas
-
-cuadro.addEventListener("pointerover", disableScroll);
-cuadro.addEventListener("pointerdown", clickAbajo);
-cuadro.addEventListener("pointermove", moverLinea);
-cuadro.addEventListener("pointerup", clickArriba);
-cuadro.addEventListener("pointerleave", enableScroll);
 
 //cuadro.addEventListener("touchstart", disableScroll);
 cuadro.addEventListener("touchstart", clickAbajo);
