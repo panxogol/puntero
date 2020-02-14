@@ -1,5 +1,7 @@
 function desabilitarScroll() {
-    window.scrollTo(0, 0);
+    var x = window.scrollX;
+    var y = window.scrollY;
+    window.scrollTo(x, y);
 }
 
 function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
@@ -47,6 +49,7 @@ var xi = 150;
 var yi = 150;
 var xf = 150;
 var yf = 150;
+var scrollLock = false;
 
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
