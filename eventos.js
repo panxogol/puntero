@@ -37,9 +37,9 @@ function clickAbajo(evento) {
 function moverLinea(evento) {
     xf = evento.layerX;
     yf = evento.layerY;
+    disableScroll();
     if (seMantiene == true) {
         //desabilitarScroll();
-        disableScroll();
         dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
         xi = evento.layerX;
         yi = evento.layerY;
