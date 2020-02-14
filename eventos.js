@@ -60,11 +60,11 @@ var yf = 150;
 btnBloqScroll.addEventListener("touchstart", disableScroll);
 btnDesbScroll.addEventListener("touchstart", enableScroll);
 
-cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
+//cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
-cuadro.addEventListener("mouseleave", enableScroll); //habilita el scroll una ves el mouse sale del canvas
+//cuadro.addEventListener("mouseleave", enableScroll); //habilita el scroll una ves el mouse sale del canvas
 
 //cuadro.addEventListener("touchstart", disableScroll);
 cuadro.addEventListener("touchstart", clickAbajo);
