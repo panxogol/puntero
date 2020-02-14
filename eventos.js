@@ -37,7 +37,6 @@ function clickAbajo(evento) {
 function moverLinea(evento) {
     xf = evento.layerX;
     yf = evento.layerY;
-    disableScroll();
     if (seMantiene == true) {
         //desabilitarScroll();
         dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
@@ -62,12 +61,14 @@ var xf = 150;
 var yf = 150;
 var scrollLock = false;
 
+cuadro.addEventListener("mouseover", disableScroll);
 cuadro.addEventListener("mousedown", clickAbajo);
 cuadro.addEventListener("mousemove", moverLinea);
 cuadro.addEventListener("mouseup", clickArriba);
 cuadro.addEventListener("mouseleave", enableScroll);
 
+cuadro.addEventListener("touchstart", disableScroll);
 cuadro.addEventListener("touchstart", clickAbajo);
 cuadro.addEventListener("touchmove", moverLinea);
 cuadro.addEventListener("touchend", clickArriba);
-cuadro.addEventListener("touchcancel", enableScroll);
+cuadro.addEventListener("touchend", enableScroll);
