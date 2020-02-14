@@ -22,6 +22,7 @@ function moverLinea(evento) {
     xf = evento.layerX;
     yf = evento.layerY;
     if (seMantiene == true) {
+        desabilitarScroll();
         dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
         xi = evento.layerX;
         yi = evento.layerY;
@@ -31,6 +32,19 @@ function moverLinea(evento) {
 function clickArriba(evento) {
     //console.log(evento);
     seMantiene = false;
+    habilitarScroll();
+}
+
+function desabilitarScroll(){  
+    var scrlX = window.scrollX;
+    var scrlY = window.scrollY;
+    window.onscroll = function(){ 
+        window.scrollTo(scrlX, scrlY)
+    };
+}
+
+function habilitarScroll(){  
+    window.onscroll = null;
 }
 
 var cuadro = document.getElementById("area-de-dibujo");
@@ -43,10 +57,11 @@ var yi = 150;
 var xf = 150;
 var yf = 150;
 
-cuadro.addEventListener("pointerdown", clickAbajo);
-cuadro.addEventListener("pointermove", moverLinea);
-cuadro.addEventListener("pointerup", clickArriba);
+cuadro.addEventListener("mousedown", clickAbajo);
+cuadro.addEventListener("mousemove", moverLinea);
+cuadro.addEventListener("mouseup", clickArriba);
 
 cuadro.addEventListener("touchstart", clickAbajo);
 cuadro.addEventListener("touchmove", moverLinea);
 cuadro.addEventListener("touchend", clickArriba);
+//cuadro.addEventListener("");
