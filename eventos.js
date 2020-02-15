@@ -1,8 +1,98 @@
+//Se inserta el código para la solucion en dispostivos touch
+
+var ongoingTouches = new Array;
+
+function colorForTouch(touch) {
+    var id = touch.identifier;
+    id = id.toString(16); // make it a hex digit
+    return "#" + id + id + id; //cuando hy más de un punto de contacto, se dibuja con otro color
+}
+
+function ongoingTouchIndexById(idToFind) {
+    for (var i = 0; i < ongoingTouches.length; i++) {
+        var id = ongoingTouches[i].identifier;
+
+        if (id == idToFind) {
+            return i;
+        }
+    }
+    return -1;    // not found
+}
+
+function handleStart(evt) { //inicia un toque
+    evt.preventDefault(); //funcion para evitar bugs con dispositivos touch
+    var el = document.getElementById("area-de-dibujo");
+    var ctx = el.getContext("2d");
+    var cnvs = ctx.canvas;
+    var touches = evt.changedTouches;
+
+    for (var i = 0; i < touches.length; i++) {
+        ongoingTouches.push(touches[i]);
+        var color = colorForTouch(touches[i]);
+        ctx.fillStyle = color;
+        ctx.fillRect(touches[i].pageX - cnvs.offsetTop, touches[i].pageY - cnvs.offsetLeft, 3, 3);
+    }
+}
+
+function handleMove(evt) {
+    evt.preventDefault();
+    var cuadro = document.getElementById("area-de-dibujo");
+    var ctx = cuadro.getContext("2d");
+    var cnvs = ctx.canvas;
+    var touches = evt.changedTouches;
+
+    ctx.lineWidth = 3;
+
+    for (var i = 0; i < touches.length; i++) {
+        var color = colorForTouch(touches[i]);
+        var idx = ongoingTouchIndexById(touches[i].identifier);
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(ongoingTouches[idx].pageX - cnvs.offsetLeft, ongoingTouches[idx].pageY - cnvs.offsetTop);
+        ctx.lineTo(touches[i].pageX - cnvs.offsetLeft, touches[i].pageY - cnvs.offsetTop);
+        ctx.closePath();
+        ctx.stroke();
+        ongoingTouches.splice(idx, 1, touches[i]);  // swap in the new touch record
+    }
+}
+
+function handleEnd(evt) {
+    evt.preventDefault();
+    var cuadro = document.getElementById("area-de-dibujo");
+    var ctx = cuadro.getContext("2d");
+    var touches = evt.changedTouches;
+
+    ctx.lineWidth = 3;
+
+    for (var i = 0; i < touches.length; i++) {
+        var color = colorForTouch(touches[i]);
+        var idx = ongoingTouchIndexById(touches[i].identifier);
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(ongoingTouches[i].pageX, ongoingTouches[i].pageY);
+        ctx.lineTo(touches[i].pageX, touches[i].pageY);
+        ongoingTouches.splice(i, 1);  // remove it; we're done
+    }
+}
+
+function handleCancel(evt) {
+    evt.preventDefault();
+    var touches = evt.changedTouches;
+
+    for (var i = 0; i < touches.length; i++) {
+        ongoingTouches.splice(i, 1);  // remove it; we're done
+    }
+}
+
+//finalizan las funciones para dispositivos touch
+
 function disableScroll() {
     var x = window.scrollX;
     var y = window.scrollY;
     window.onscroll = function () {
-        window.scrollTo(x, y)
+        window.scrollTo(x, y);
     };
 }
 
@@ -27,13 +117,13 @@ function clickAbajo(evento) {
     seMantiene = true;
     xi = evento.layerX;
     yi = evento.layerY;
-    console.log(xi);
+    //console.log(xi);
     //console.log(yi);
 }
 function moverLinea(evento) {
     xf = evento.layerX;
     yf = evento.layerY;
-    console.log(evento);
+    //console.log(evento);
     if (seMantiene == true) {
         dibujarLinea(colorcito, xi, yi, xf, yf, pintura);
         xi = evento.layerX;
@@ -69,7 +159,14 @@ cuadro.addEventListener("mouseup", clickArriba);
 //cuadro.addEventListener("mouseleave", enableScroll); //habilita el scroll una ves el mouse sale del canvas
 
 //cuadro.addEventListener("touchstart", disableScroll);
-cuadro.addEventListener("touchstart", clickAbajo);
-cuadro.addEventListener("touchmove", moverLinea);
-cuadro.addEventListener("touchend", clickArriba);
+//cuadro.addEventListener("touchstart", clickAbajo);
+//cuadro.addEventListener("touchmove", moverLinea);
+//cuadro.addEventListener("touchend", clickArriba);
 //cuadro.addEventListener("touchend", enableScroll);
+
+//listeners para dispositivos touch
+cuadro.addEventListener("touchstart", handleStart, false);
+cuadro.addEventListener("touchend", handleEnd, false);
+cuadro.addEventListener("touchcancel", handleCancel, false);
+cuadro.addEventListener("touchleave", handleEnd, false);
+cuadro.addEventListener("touchmove", handleMove, false);
