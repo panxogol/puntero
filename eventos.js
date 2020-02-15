@@ -10,6 +10,7 @@ var ongoingTouches = new Array;
 
 function colorForTouch(touch) {
     var id = touch.identifier;
+    console.log(id);
     idR = (id*10).toString(16); // make it a hex digit
     idG = (id*5).toString(16);
     idB = (id*15).toString(16);
