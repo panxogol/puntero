@@ -97,7 +97,8 @@ function handleCancel(evt) {
 
 //finalizan las funciones para dispositivos touch
 
-function disableScroll() {
+//funciones para bloquear y desbloquear scroll bar
+/* function disableScroll() {
     var x = window.scrollX;
     var y = window.scrollY;
     window.onscroll = function () {
@@ -107,7 +108,7 @@ function disableScroll() {
 
 function enableScroll() {
     window.onscroll = null;
-}
+} */
 
 function dibujarLinea(color, x_inicial, y_inicial, x_final, y_final, lienzo) {
     //Aqui empieza el dibujo
@@ -158,8 +159,8 @@ var xf = 150;
 var yf = 150;
 
 //habilitar y deshabilitar scroll bar con los botones
-btnBloqScroll.addEventListener("click", disableScroll);
-btnDesbScroll.addEventListener("click", enableScroll);
+//btnBloqScroll.addEventListener("click", disableScroll);
+//btnDesbScroll.addEventListener("click", enableScroll);
 
 //cuadro.addEventListener("mouseover", disableScroll); //deshabilita el scroll mientras el mouse esté dentro del canvas
 cuadro.addEventListener("mousedown", clickAbajo);

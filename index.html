@@ -8,6 +8,7 @@
     <!-- BOOTSTRAP 4-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Styles CSS-->
     <link rel="stylesheet" href="Static/css/estilos.css">
 
 </head>
@@ -16,13 +17,11 @@
     <div class="container">
         <div class="jumbotron">
             <h1>Dibuja en el cuadro con el puntero del mouse o tus dedos :D</h1>
-            <p>Haz click y mantenlo en el lienzo para dibujar, usa más de un dedo y observa que pasa</p>
+            <p>Haz click y mantenlo en el lienzo para dibujar, usa más de un dedo si deseas</p>
             <canvas width="300" height="300" id="area-de-dibujo">Utiliza otro navegador</canvas>
             <p>Haz trazos manteniendo presionado el boton primario del mouse mientras dibujas</p>
             <input type="button" value="Refrescar" onclick="refreshCanvas()">
-            <input type="button" value="Bloquear Scroll" id = "btn-bloq-scroll">
-            <input type="button" value="Desbloquear" id = "btn-desb-scroll">
-            <p>Para que el navegador deje de moverse mientras dibujas en dispositivos táctiles, presiona el botón parsa bloquear la barra de desplazamiento. Desbloquealo con el botón DESBLOQUEAR</p>
+            <p>Utiliza el botón Refrescar para volven a poner tu lienzo en blanco</p>
             <!-- Linea de scripts -->
             <script src="eventos.js"></script>
         </div>
