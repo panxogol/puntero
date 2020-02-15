@@ -1,3 +1,9 @@
+//funcion para refrescar el dibujo
+function refreshCanvas() {
+    var canvas = document.getElementById("area-de-dibujo");
+    canvas.width = canvas.width;
+}
+
 //Se inserta el código para la solucion en dispostivos touch
 
 var ongoingTouches = new Array;
