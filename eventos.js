@@ -9,9 +9,11 @@ function refreshCanvas() {
 var ongoingTouches = new Array;
 
 function colorForTouch(touch) {
-    var id = touch.identifier * 5;
-    id = id.toString(16); // make it a hex digit
-    return "#" + id + id + id; //cuando hy más de un punto de contacto, se dibuja con otro color
+    var id = touch.identifier;
+    idR = (id*10).toString(16); // make it a hex digit
+    idG = (id*5).toString(16);
+    idB = (id*15).toString(16);
+    return "#" + idR + idG + idB; //cuando hy más de un punto de contacto, se dibuja con otro color
 }
 
 function ongoingTouchIndexById(idToFind) {
